@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Header from './Header'
 import Search from './Search'
@@ -27,8 +27,18 @@ function App() {
             .catch(err => {
                 console.log(err)
             })
-
     }
+
+    useEffect(() => {
+        axios.get(`https://swapi.dev/api/people/`)
+            .then(res => {
+                const returnData = res.data.results
+                setDisplay(returnData.map(data => data))
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }, [])
 
     return (
         <div>
