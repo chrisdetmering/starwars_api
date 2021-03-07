@@ -2,16 +2,16 @@ import React from 'react'
 
 function Table() {
     return (
-        <div>
-            <table>
+        <div className="container">
+            <table className="table">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Birthdate</th>
-                        <th>Height</th>
-                        <th>Mass</th>
-                        <th>Homeworld</th>
-                        <th>Species</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Birthdate</th>
+                        <th scope="col">Height</th>
+                        <th scope="col">Mass</th>
+                        <th scope="col">Homeworld</th>
+                        <th scope="col">Species</th>
                     </tr>
                 </thead>
             </table>

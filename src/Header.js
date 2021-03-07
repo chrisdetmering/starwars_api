@@ -2,9 +2,11 @@ import React from 'react'
 
 function Header() {
     return (
-        <nav>
-            <h1>Star Wars</h1>
-        </nav>
+        <div className="container shadow p-3 mb-5 bg-white rounded">
+            <nav className="navbar navbar-light bg-light">
+                <h1 className="display-3 navbar-text">Star Wars API</h1>
+            </nav>
+        </div>
     )
 }
 
