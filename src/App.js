@@ -21,11 +21,13 @@ function App() {
     const getData = search => {
         axios.get(`https://swapi.dev/api/people/?search=${search}`)
             .then(res => {
-                console.log(res.data)
+                const returnData = res.data.results
+                setDisplay(returnData.map(data => data))
             })
             .catch(err => {
                 console.log(err)
             })
+
     }
 
     return (
@@ -36,7 +38,9 @@ function App() {
                 handleClick={handleClick}
                 value={search}
             />
-            <Table value={display} />
+            <Table
+                value={display}
+            />
             <Pagination />
         </div>
     )

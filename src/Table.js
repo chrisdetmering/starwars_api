@@ -1,6 +1,21 @@
 import React from 'react'
 
-function Table() {
+function Table(props) {
+
+    const results = props.value
+    const tableRow = results.map(item => {
+        return (
+            <tr key={Math.random()}>
+                <td>{item.name}</td>
+                <td>{item.birth_year}</td>
+                <td>{item.height}</td>
+                <td>{item.mass}</td>
+                <td>{item.homeworld}</td>
+                <td>{item.species}</td>
+            </tr>
+        )
+    })
+
     return (
         <div className="container">
             <table className="table">
@@ -14,6 +29,9 @@ function Table() {
                         <th scope="col">Species</th>
                     </tr>
                 </thead>
+                <tbody>
+                    {tableRow}
+                </tbody>
             </table>
         </div>
     )
