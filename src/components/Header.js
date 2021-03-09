@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Header() {
+const Header = () => {
     return (
         <div className="container shadow p-3 mb-5 bg-white rounded">
             <nav className="navbar navbar-light bg-light">

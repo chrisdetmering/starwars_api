@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Search(props) {
+const Search = (props) => {
     return (
         <div className="container">
             <form>

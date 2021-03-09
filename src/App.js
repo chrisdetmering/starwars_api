@@ -5,43 +5,70 @@ import Search from './components/Search'
 import Table from './components/Table'
 import Pagination from './components/Pagination'
 
-function App() {
+const App = () => {
     const [search, setSearch] = useState('')
-    const [data, setData] = useState([]);
+    const [data, setData] = useState([{}])
 
     const handleChange = event => setSearch(event.target.value)
 
     const handleClick = event => {
         event.preventDefault()
-        getData(search)
+        getDataOnSearch(search)
     }
 
-    const getData = async search => {
-        await axios.get(`https://swapi.dev/api/people/?search=${search}`)
-            .then(res => {
-                console.log(res.data.next)
-                const returnData = res.data.results
-                setData(returnData.map(data => data))
-            })
+    const getDataOnSearch = async search => {
+        const URL = `https://swapi.dev/api/people/?search=${search}`
+        const characters = await axios
+            .get(URL)
+            .then(res => res.data.results)
+        await getHomeworldData(characters)
+        await getSpeciesData(characters)
+
             .catch(err => {
                 console.log(err)
             })
+        setData(characters)
     }
 
     const getDataOnLoad = async () => {
-        await axios.get(`https://swapi.dev/api/people/`)
-            .then(res => {
-                console.log(res.data)
-                const returnData = res.data.results
-                setData(returnData.map(data => data))
-            })
+        const URL = `https://swapi.dev/api/people/`
+        const characters = await axios
+            .get(URL)
+            .then(res => res.data.results)
+        await getHomeworldData(characters)
+        await getSpeciesData(characters)
+
             .catch(err => {
                 console.log(err)
             })
+        setData(characters)
     }
 
-    // write function to .get from homeworld url
-    // write function to .get from species url
+    const getHomeworldData = async (characters) => {
+        for (const char of characters) {
+            const homeworldURL = char.homeworld
+            const homeworldData = await axios
+                .get(homeworldURL)
+                .then(res => res.data)
+            char.homeworld = homeworldData.name
+            console.log(homeworldData.name, char)
+        }
+    }
+
+    const getSpeciesData = async (characters) => {
+        for (const char of characters) {
+            if (char.species.length === 0) {
+                char.species = 'Human'
+            } else {
+                const speciesURL = char.species
+                const speciesData = await axios
+                    .get(speciesURL)
+                    .then(res => res.data)
+                char.species = speciesData.name
+                console.log(speciesData.name)
+            }
+        }
+    }
 
     useEffect(() => {
         getDataOnLoad()

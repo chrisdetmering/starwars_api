@@ -1,6 +1,8 @@
 import React from 'react'
 
+
 const TableRow = ({ data }) => {
+
     return data.map(item => {
         return (
             <tr key={Math.random()}>
