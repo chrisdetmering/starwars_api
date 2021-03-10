@@ -18,6 +18,7 @@ const App = () => {
 
     const handleClick = event => {
         event.preventDefault()
+        setActivePage(1)
         getCharData(`https://swapi.dev/api/people/?search=${search}`)
     }
 
@@ -49,7 +50,6 @@ const App = () => {
                 })
                 setPageNext(res.data.next)
                 setPagePrev(res.data.previous)
-                console.log(res.data)
                 return res.data.results
             })
         await getAdditionalData(characters)

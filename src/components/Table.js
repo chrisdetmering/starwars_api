@@ -13,7 +13,7 @@ const Table = ({ charData, isLoading }) => {
     }
     return (
         <div className="container">
-            <table className="table">
+            <table className="table table">
                 <thead>
                     <tr>
                         <th scope="col">Name</th>
