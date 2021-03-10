@@ -3,24 +3,25 @@ import React from 'react'
 const Pagination = ({ pageCount, pageGoTo, pageNextClick, pagePrevClick, pagePrev, activePage, isLoading }) => {
 
     const createPageButtons = pageCount => {
-
         const pageButtonArray = []
         for (let i = 1; i < pageCount + 1; i++) {
             pageButtonArray.push(<li key={i}
                 className={activePage === i ? "page-item active" : "page-item"}>
                 <a className="page-link"
-                    onClick={pageGoTo}
+                    onClick={() => pageGoTo(`http://swapi.dev/api/people/?page=${i}`)}
                     href="/#">{i}
                 </a>
             </li>)
         }
         return pageButtonArray
     }
+
     if (isLoading) {
         return (
             <div></div>
         )
     }
+
     return (
         <nav aria-label="...">
             <ul className="pagination justify-content-center">

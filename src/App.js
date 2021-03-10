@@ -35,6 +35,7 @@ const App = () => {
     }
 
     const pageGoTo = (page) => {
+        setActivePage(() => parseInt(page.slice(-1)))
         getCharData(page)
     }
 
