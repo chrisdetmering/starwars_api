@@ -1,9 +1,9 @@
 import React from 'react'
 
 
-const TableRow = ({ data }) => {
+const TableRow = ({ charData }) => {
 
-    return data.map(item => {
+    return charData.map(item => {
         return (
             <tr key={Math.random()}>
                 <td>{item.name}</td>

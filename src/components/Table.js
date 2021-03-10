@@ -1,7 +1,7 @@
 import React from 'react'
 import TableRow from './TableRow'
 
-const Table = ({ data }) => {
+const Table = ({ charData }) => {
     return (
         <div className="container">
             <table className="table">
@@ -17,7 +17,7 @@ const Table = ({ data }) => {
                 </thead>
                 <tbody>
                     <TableRow
-                        data={data}
+                        charData={charData}
                     />
                 </tbody>
             </table>
