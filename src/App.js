@@ -8,23 +8,47 @@ import Pagination from './components/Pagination'
 const App = () => {
     const [search, setSearch] = useState('')
     const [charData, setCharData] = useState([{}])
-    const [pageData, setPageNext] = useState('')
+    const [pageNext, setPageNext] = useState('')
+    const [pagePrev, setPagePrev] = useState('')
     const [pageCount, setPageCount] = useState(0)
+    const [activePage, setActivePage] = useState(1)
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleChange = event => setSearch(event.target.value)
 
     const handleClick = event => {
         event.preventDefault()
-        getCharData(`?search=${search}`)
+        getCharData(`https://swapi.dev/api/people/?search=${search}`)
+    }
+
+    const pageNextClick = () => {
+        getCharData(pageNext)
+        setActivePage((prevState) => prevState + 1)
+    }
+
+    const pagePrevClick = () => {
+        if (!pagePrev) {
+            return
+        }
+        getCharData(pagePrev)
+        setActivePage((prevState) => prevState - 1)
+    }
+
+    const pageGoTo = (page) => {
+        getCharData(page)
     }
 
     const getCharData = async search => {
-        const URL = `https://swapi.dev/api/people/${search}`
+        setIsLoading(true)
         const characters = await axios
-            .get(URL)
+            .get(search)
             .then(res => {
-                setPageCount(res.data.count)
+                setPageCount(() => {
+                    return Math.ceil(res.data.count / 10)
+                })
                 setPageNext(res.data.next)
+                setPagePrev(res.data.previous)
+                console.log(res.data)
                 return res.data.results
             })
         await getAdditionalData(characters)
@@ -32,6 +56,7 @@ const App = () => {
                 console.log(err)
             })
         setCharData(characters)
+        setIsLoading(false)
     }
 
     const getAdditionalData = async (characters) => {
@@ -56,7 +81,7 @@ const App = () => {
     }
 
     useEffect(() => {
-        getCharData('')
+        getCharData(`https://swapi.dev/api/people/`)
     }, [])
 
     return (
@@ -69,8 +94,17 @@ const App = () => {
             />
             <Table
                 charData={charData}
+                isLoading={isLoading}
             />
-            <Pagination />
+            <Pagination
+                isLoading={isLoading}
+                activePage={activePage}
+                pageGoTo={pageGoTo}
+                pageCount={pageCount}
+                pageNextClick={pageNextClick}
+                pagePrevClick={pagePrevClick}
+                pagePrev={pagePrev}
+            />
         </div>
     )
 }

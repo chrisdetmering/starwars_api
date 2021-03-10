@@ -1,7 +1,16 @@
 import React from 'react'
 import TableRow from './TableRow'
 
-const Table = ({ charData }) => {
+const Table = ({ charData, isLoading }) => {
+    if (isLoading) {
+        return (
+            <div className="text-center">
+                <div className="spinner-border m-5 text-primary" role="status">
+                    <span className="visually-hidden"></span>
+                </div>
+            </div>
+        )
+    }
     return (
         <div className="container">
             <table className="table">
