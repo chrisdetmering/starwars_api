@@ -49,7 +49,7 @@ const App = () => {
             .get(search)
             .then(res => {
                 setPageCount(() => {
-                    return Math.ceil(res.data.count / 10 + 1)
+                    return Math.ceil(res.data.count / 10)
                 })
                 setPageNext(res.data.next)
                 setPagePrev(res.data.previous)

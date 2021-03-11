@@ -4,7 +4,7 @@ const Pagination = ({ pageCount, pageGoTo, pageNextClick, pagePrevClick, activeP
 
     const createPageButtons = pageCount => {
         const pageButtons = []
-        for (let i = 1; i < pageCount; i++) {
+        for (let i = 1; i <= pageCount; i++) {
             pageButtons.push(<li key={i}
                 className={activePage === i ? "page-item active" : "page-item"}>
                 <a className="page-link"
