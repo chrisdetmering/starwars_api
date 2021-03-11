@@ -2,7 +2,7 @@
 
 ### Star Wars API made with React and Bootstrap
 
-### See it [here]()
+### See it [here](https://damp-castle-81042.herokuapp.com/)
 
 ![](./src/img/StarwarsAPI.png)
 
@@ -12,4 +12,4 @@ My second projst using React, this time practicing making HTTP requests to a Sta
 
 ## Author
 
-Bryan Krauss - Full Stack Software Developer - [LinkedIn](https://www.linkedin.com/in/bryan-krauss-556b3a200/) | [Website] (https://bryankrauss.ca/)
+Bryan Krauss - Full Stack Software Developer - [LinkedIn](https://www.linkedin.com/in/bryan-krauss-556b3a200/) | [Website](https://bryankrauss.ca/)
