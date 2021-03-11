@@ -8,7 +8,7 @@
 
 ## Summary
 
-My second projst using React, this time practicing making HTTP requests to a Star Wars API. Adding in the Axios AJAX library to make API calls much more streamlined. Having to make additional calls because of nature of the data sent back, this was the biggest challenge for me. However once I figured out how to implement async/await functions it all fell into place. Finally, having pagination function correctly was a big win, using hooks to render elements on the page is awesome. React is begining to grow on me and I look forward to more complex apps in the future.
+My second project using React, this time practicing making HTTP requests to a Star Wars API. Adding in the Axios AJAX library to make Web API calls more streamlined. Having to make additional calls because of nature of the data sent back, this was the biggest challenge for me. However once I figured out how to implement async/await functions it all fell into place. Finally, having pagination function correctly was a big win, using hooks to render elements on the page is awesome. React is begining to grow on me and I look forward to more complex apps in the future.
 
 ## Author
 
