@@ -23,6 +23,9 @@ const App = () => {
     }
 
     const pageNextClick = () => {
+        if (!pageNext) {
+            return
+        }
         const HTTPSPageNext = pageNext.replace('http', 'https')
         getCharData(HTTPSPageNext)
         setActivePage(prevState => prevState + 1)
