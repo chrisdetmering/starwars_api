@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Search = (props) => {
+const Search = ({ value, handleChange, handleClick }) => {
 
     return (
         <div className="container">
@@ -11,16 +11,16 @@ const Search = (props) => {
                             type='text'
                             name="search"
                             className="form-control"
-                            value={props.value}
+                            value={value}
                             placeholder="Search Character Name"
-                            onChange={props.handleChange}
+                            onChange={handleChange}
                         />
                     </div>
                     <div className="col-2">
                         <button
                             type='submit'
                             className="btn btn-primary float-right"
-                            onClick={props.handleClick}
+                            onClick={handleClick}
                         >
                             Search
                     </button>

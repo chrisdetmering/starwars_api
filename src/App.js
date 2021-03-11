@@ -26,8 +26,7 @@ const App = () => {
         if (!pageNext) {
             return
         }
-        const HTTPSPageNext = pageNext.replace('http', 'https')
-        getCharData(HTTPSPageNext)
+        getCharData(pageNext.replace('http', 'https'))
         setActivePage(prevState => prevState + 1)
     }
 
@@ -35,15 +34,13 @@ const App = () => {
         if (!pagePrev) {
             return
         }
-        const HTTPSPagePrev = pagePrev.replace('http', 'https')
-        getCharData(HTTPSPagePrev)
+        getCharData(pagePrev.replace('http', 'https'))
         setActivePage(prevState => prevState - 1)
     }
 
-    const pageGoTo = (page) => {
+    const pageGoTo = page => {
         setActivePage(() => parseInt(page.slice(-1)))
-        const HTTPSPage = page.replace('http', 'https')
-        getCharData(HTTPSPage)
+        getCharData(page.replace('http', 'https'))
     }
 
     const getCharData = async search => {
@@ -69,10 +66,12 @@ const App = () => {
     const getAdditionalData = async (characters) => {
         for (const char of characters) {
             const homeworldURL = char.homeworld
-            const HTTPSHomeworldURL = homeworldURL.replace('http', 'https')
             const homeworldData = await axios
-                .get(HTTPSHomeworldURL)
+                .get(homeworldURL.replace('http', 'https'))
                 .then(res => res.data)
+                .catch(err => {
+                    console.log(err)
+                })
             char.homeworld = homeworldData.name
         }
         for (const char of characters) {
@@ -80,10 +79,12 @@ const App = () => {
                 char.species = 'Human'
             } else {
                 const speciesURL = char.species.toString()
-                const HTTPSSpeciesURL = speciesURL.replace('http', 'https')
                 const speciesData = await axios
-                    .get(HTTPSSpeciesURL)
+                    .get(speciesURL.replace('http', 'https'))
                     .then(res => res.data)
+                    .catch(err => {
+                        console.log(err)
+                    })
                 char.species = speciesData.name
             }
         }
