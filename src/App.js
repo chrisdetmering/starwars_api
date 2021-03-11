@@ -23,7 +23,8 @@ const App = () => {
     }
 
     const pageNextClick = () => {
-        getCharData(pageNext)
+        const HTTPSPageNext = pageNext.replace('http', 'https')
+        getCharData(HTTPSPageNext)
         setActivePage(prevState => prevState + 1)
     }
 
@@ -31,13 +32,16 @@ const App = () => {
         if (!pagePrev) {
             return
         }
-        getCharData(pagePrev)
+        const HTTPSPagePrev = pagePrev.replace('http', 'https')
+        getCharData(HTTPSPagePrev)
         setActivePage(prevState => prevState - 1)
     }
 
     const pageGoTo = (page) => {
         setActivePage(() => parseInt(page.slice(-1)))
-        getCharData(page)
+        const HTTPSPage = page.replace('http', 'https')
+        console.log(HTTPSPage)
+        getCharData(HTTPSPage)
     }
 
     const getCharData = async search => {
@@ -63,8 +67,9 @@ const App = () => {
     const getAdditionalData = async (characters) => {
         for (const char of characters) {
             const homeworldURL = char.homeworld
+            const HTTPSHomeworldURL = homeworldURL.replace('http', 'https')
             const homeworldData = await axios
-                .get(homeworldURL)
+                .get(HTTPSHomeworldURL)
                 .then(res => res.data)
             char.homeworld = homeworldData.name
         }
@@ -72,9 +77,10 @@ const App = () => {
             if (char.species.length === 0) {
                 char.species = 'Human'
             } else {
-                const speciesURL = char.species
+                const speciesURL = char.species.toString()
+                const HTTPSSpeciesURL = speciesURL.replace('http', 'https')
                 const speciesData = await axios
-                    .get(speciesURL)
+                    .get(HTTPSSpeciesURL)
                     .then(res => res.data)
                 char.species = speciesData.name
             }
