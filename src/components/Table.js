@@ -2,6 +2,7 @@ import React from 'react'
 import TableRow from './TableRow'
 
 const Table = ({ charData, isLoading }) => {
+
     if (isLoading) {
         return (
             <div className="text-center">
@@ -11,9 +12,10 @@ const Table = ({ charData, isLoading }) => {
             </div>
         )
     }
+
     return (
         <div className="container">
-            <table className="table table">
+            <table className="table table-dark table-striped">
                 <thead>
                     <tr>
                         <th scope="col">Name</th>

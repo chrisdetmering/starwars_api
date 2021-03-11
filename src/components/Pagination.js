@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Pagination = ({ pageCount, pageGoTo, pageNextClick, pagePrevClick, pagePrev, activePage, isLoading }) => {
+const Pagination = ({ pageCount, pageGoTo, pageNextClick, pagePrevClick, activePage, isLoading }) => {
 
     const createPageButtons = pageCount => {
-        const pageButtonArray = []
-        for (let i = 1; i < pageCount + 1; i++) {
-            pageButtonArray.push(<li key={i}
+        const pageButtons = []
+        for (let i = 1; i < pageCount; i++) {
+            pageButtons.push(<li key={i}
                 className={activePage === i ? "page-item active" : "page-item"}>
                 <a className="page-link"
                     onClick={() => pageGoTo(`http://swapi.dev/api/people/?page=${i}`)}
@@ -13,7 +13,7 @@ const Pagination = ({ pageCount, pageGoTo, pageNextClick, pagePrevClick, pagePre
                 </a>
             </li>)
         }
-        return pageButtonArray
+        return pageButtons
     }
 
     if (isLoading) {
@@ -25,7 +25,7 @@ const Pagination = ({ pageCount, pageGoTo, pageNextClick, pagePrevClick, pagePre
     return (
         <nav aria-label="...">
             <ul className="pagination justify-content-center">
-                <li className={pagePrev ? "page-item" : "page-item disabled"}>
+                <li className="page-item">
                     <a className="page-link" onClick={pagePrevClick} href="/#" tabIndex="-1" aria-disabled="false">Previous</a>
                 </li>
                 {createPageButtons(pageCount)}

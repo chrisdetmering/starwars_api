@@ -24,7 +24,7 @@ const App = () => {
 
     const pageNextClick = () => {
         getCharData(pageNext)
-        setActivePage((prevState) => prevState + 1)
+        setActivePage(prevState => prevState + 1)
     }
 
     const pagePrevClick = () => {
@@ -32,7 +32,7 @@ const App = () => {
             return
         }
         getCharData(pagePrev)
-        setActivePage((prevState) => prevState - 1)
+        setActivePage(prevState => prevState - 1)
     }
 
     const pageGoTo = (page) => {
@@ -46,7 +46,7 @@ const App = () => {
             .get(search)
             .then(res => {
                 setPageCount(() => {
-                    return Math.ceil(res.data.count / 10)
+                    return Math.ceil(res.data.count / 10 + 1)
                 })
                 setPageNext(res.data.next)
                 setPagePrev(res.data.previous)
