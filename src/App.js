@@ -40,7 +40,6 @@ const App = () => {
     const pageGoTo = (page) => {
         setActivePage(() => parseInt(page.slice(-1)))
         const HTTPSPage = page.replace('http', 'https')
-        console.log(HTTPSPage)
         getCharData(HTTPSPage)
     }
 
