@@ -6,94 +6,87 @@ import Table from './components/Table'
 import Pagination from './components/Pagination'
 
 const App = () => {
-    const [search, setSearch] = useState('')
-    const [charData, setCharData] = useState([{}])
-    const [pageNext, setPageNext] = useState('')
-    const [pagePrev, setPagePrev] = useState('')
-    const [pageCount, setPageCount] = useState(0)
-    const [activePage, setActivePage] = useState(1)
-    const [isLoading, setIsLoading] = useState(false)
+    const [search, setSearch] = useState('');
+    const [charData, setCharData] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1); 
+    const [pageCount, setPageCount] = useState(0);
 
-    const handleChange = event => setSearch(event.target.value)
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        getCharData(`https://swapi.dev/api/people/`);
+    }, []);
+
+    const handleChange = event => setSearch(event.target.value);
 
     const handleClick = event => {
-        event.preventDefault()
-        setActivePage(1)
-        getCharData(`https://swapi.dev/api/people/?search=${search}`)
+        event.preventDefault();
+        getCharData(`https://swapi.dev/api/people/?search=${search}`);
     }
 
-    const pageNextClick = () => {
-        if (!pageNext) {
-            return
+
+    const handlePageChange = (pageNumber) => { 
+        if (pageNumber < 1 || pageNumber > pageCount) return; 
+        
+        if (search.length > 0) { 
+            getCharData(`https://swapi.dev/api/people/?search=${search}&page=${pageNumber}`);
+            setCurrentPage(pageNumber);
+        } else { 
+            getCharData(`https://swapi.dev/api/people/?page=${pageNumber}`);
+            setCurrentPage(pageNumber);
         }
-        getCharData(pageNext.replace('http', 'https'))
-        setActivePage(prevState => prevState + 1)
     }
 
-    const pagePrevClick = () => {
-        if (!pagePrev) {
-            return
-        }
-        getCharData(pagePrev.replace('http', 'https'))
-        setActivePage(prevState => prevState - 1)
-    }
-
-    const pageGoTo = page => {
-        setActivePage(() => parseInt(page.slice(-1)))
-        getCharData(page.replace('http', 'https'))
-    }
 
     const getCharData = async search => {
-        setIsLoading(true)
-        const characters = await axios
-            .get(search)
-            .then(res => {
-                setPageCount(() => {
-                    return Math.ceil(res.data.count / 10)
-                })
-                setPageNext(res.data.next)
-                setPagePrev(res.data.previous)
-                return res.data.results
+        setIsLoading(true);
+        axios.get(search)
+            .then(async res => {
+                setPageCount(Math.ceil(res.data.count / 10));
+                const characters = await getAdditionalData(res.data.results);
+                setCharData(characters);
             })
-        await getAdditionalData(characters)
             .catch(err => {
-                console.log(err)
+                console.log(err);
             })
-        setCharData(characters)
-        setIsLoading(false)
+            .finally(() => { 
+                setIsLoading(false);
+            })
     }
 
     const getAdditionalData = async (characters) => {
-        for (const char of characters) {
-            const homeworldURL = char.homeworld
-            const homeworldData = await axios
-                .get(homeworldURL.replace('http', 'https'))
-                .then(res => res.data)
-                .catch(err => {
-                    console.log(err)
-                })
-            char.homeworld = homeworldData.name
+        for (const character of characters) {
+            character.homeworld = await getHomeWorld(character.homeworld);
+            character.species = await getSpecies(character.species.toString()); 
+         
         }
-        for (const char of characters) {
-            if (char.species.length === 0) {
-                char.species = 'Human'
-            } else {
-                const speciesURL = char.species.toString()
-                const speciesData = await axios
-                    .get(speciesURL.replace('http', 'https'))
-                    .then(res => res.data)
-                    .catch(err => {
-                        console.log(err)
-                    })
-                char.species = speciesData.name
-            }
-        }
+       return characters; 
     }
 
-    useEffect(() => {
-        getCharData(`https://swapi.dev/api/people/`)
-    }, [])
 
+    const getHomeWorld = (url) => { 
+        return axios
+        .get(url.replace('http', 'https'))
+        .then(res => res.data.name)
+        .catch(err => {
+            console.log(err)
+        });
+    }
+
+    const getSpecies = (url) => { 
+        if (url.length === 0) { 
+            return "Human"; 
+        }
+        return axios
+        .get(url.replace('http', 'https'))
+        .then(res => res.data.name)
+        .catch(err => {
+            console.log(err)
+        });
+    }
+
+
+   
     return (
         <div>
             <Header />
@@ -107,13 +100,10 @@ const App = () => {
                 isLoading={isLoading}
             />
             <Pagination
+                changePage={handlePageChange}
                 isLoading={isLoading}
-                activePage={activePage}
-                pageGoTo={pageGoTo}
                 pageCount={pageCount}
-                pageNextClick={pageNextClick}
-                pagePrevClick={pagePrevClick}
-                pagePrev={pagePrev}
+                currentPage={currentPage}
             />
         </div>
     )
